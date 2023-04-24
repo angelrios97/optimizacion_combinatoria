@@ -1,0 +1,275 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Ángel Ríos San Nicolás}
+\title{Optimización Combinatoria}
+\date{Hoja 1--Desigualdades lineales, poliedros\\ 27 de octubre de 2020}
+\begin{document}
+\maketitle
+\textbf{Ejercicio 1.} Demostrar el teorema de la alternativa suponiendo cierto el lema de Farkas.
+
+\textbf{Teorema de la alternativa.} Sea $A\in\mathbb{R}^{n\times m}$ y $b\in\mathbb{R}^m$. Uno y solo uno de los siguientes sistemas tiene solución.
+$$
+(\text{i})\quad Ax\leq b,\qquad\qquad\qquad\qquad (\text{ii})\quad yA=0, y\geq 0, yb<0$$
+
+
+\textbf{Lema de Farkas}. Sea $A\in\mathbb{R}^{m\times n},b\in\mathbb{R}^m$. Uno y solo uno de los siguientes sistemas tiene solución.
+$$
+(\text{i})\quad Ax=b,x\geq 0\qquad\qquad\qquad (\text{ii})\quad yA\geq0, yb<0$$
+
+\textbf{Solución.}
+Es claro que ambos sistemas no pueden tener solución porque en ese caso se tendría
+$$\left\{\begin{array}{ccc}Ax & \leq & b\\
+yA & = & 0\end{array}\right\}\longrightarrow 0=0x=yAx\leq yb,$$
+que contradice la desigualdad $yb<0$. Observamos que hemos necesitado que $y\geq 0$ para que no cambie de sentido la desigualdad.
+
+Supongamos que $Ax\leq b$ tiene solución y queremos probar que $yA=0,y\geq 0,yb<0$ no tiene solución. Razonaremos de manera análoga a la demostración del recíproco. Podemos introducir variables de holgura de la forma $x=u-v$ donde $u,v$ son, respectivamente, las partes positiva y negativa de $x$ y tomamos $s=b-Ax$. Claramente tenemos que $u,v,s\geq 0$. Sumando $Au,-Av$ y $s$, tenemos
+$$Au-Av+s=A(u-v)+s=A(u-v)+b-A(u-v)=b.$$
+Por tanto, el sistema 
+$$\left\{\begin{array}{rcl}
+Au-Av+s & = & b\\
+u,v,s & \geq & 0
+\end{array} \right.\longleftrightarrow\left\{\begin{array}{rcl}
+\begin{pmatrix}
+A & -A & I
+\end{pmatrix}\begin{pmatrix}
+u\\v\\s
+\end{pmatrix} & = & b\\
+u,v,s & \geq & 0
+\end{array} \right.$$
+tiene solución. Además si el sistema anterior tiene solución, tomando $x=u-v$ y $s=b-A(u-v)$ y sumando y restando $s$, se llega a que $Ax=A(u-v)+s-s=b-s\leq b$ porque $s\geq 0$ con lo que $Ax\leq b$ tiene solución. Es decir, se tiene la equivalencia de compatibilidades entre los dos sistemas.
+
+Aplicando el lema de Farkas, lo anterior es también equivalente a que el sistema
+
+$$\left\{\begin{array}{rcl}
+y\begin{pmatrix}
+A & -A & I
+\end{pmatrix} & \geq & 0\\
+yb  & < & 0
+\end{array}\right.\longleftrightarrow \left\{\begin{array}{rcl}yA & \geq & 0\\
+yA & \leq & 0\\
+y & \geq & 0\\
+yb & < & 0 
+\end{array} \right.\longleftrightarrow yA=0,y\geq 0,yb<0$$
+no tenga solución, que es precismante lo que queríamos probar.
+
+\textbf{Ejercicio 2.} Sea $Q$ el poliedro definido por el sistema $Ax\leq b$ y sean $a_1,\ldots,a_m\in\mathbb{R}^n$ las filas de $A$. Demostrar que la desigualdad $cx\leq d$ es válida en todo $Q$ si y solo si es combinación cónica de las que definen $Q$ y la desigualdad $0x\leq 1$. Es decir, si y solo si
+$$(c;d)\in\text{cone}\left((a_1;b_1,\ldots,a_m;b_m),(0,1)\right)\subset\mathbb{R}^n\times\mathbb{R}.$$
+
+\textbf{Solución.}
+
+$\Longrightarrow$ (Para este ejercicio suponemos que $c$ es un vector fila. El resto de vectores serán vectores columna salvo transposición). Suponemos que $cx\leq d$ no es combinación cónica de las filas de $Ax\leq b$ y $0x\leq 1$ y queremos probar que existe un $x\in Q$ tal que no se cumple $cx\leq d$. Como $cx\leq d$ no es tal combinación cónica, tenemos que el sistema
+$$\left\{\begin{array}{rcl}0x_0+A^Tx & = & c\\
+x_0+b^Tx & = & d\\
+x_0 & \geq & 0\\
+x & \geq & 0
+\end{array}\right.$$
+no tiene solución. Observamos que las dos primeras ecuaciones las podemos escribir en forma matricial
+$$\begin{pmatrix}
+0 & A^T\\
+1 & b^T
+\end{pmatrix}\begin{pmatrix}
+x_0\\
+x
+\end{pmatrix}=\begin{pmatrix}
+c\\
+d
+\end{pmatrix}.$$
+Por el lema de Farkas, el sistema
+$$\left\{\begin{array}{rcl}\begin{pmatrix}
+y^T & v
+\end{pmatrix}\begin{pmatrix}0 & A^T\\ 1 & b^T
+\end{pmatrix} & \geq & 0\\
+
+\begin{pmatrix}
+y^T & v
+\end{pmatrix}
+\begin{pmatrix}
+c\\ d
+\end{pmatrix} & < & 0\end{array}\right.\longleftrightarrow\left\{\begin{array}{rcl}v & \geq & 0\\
+Ay+vb &\geq & 0\\
+cy+vd & < & 0
+
+\end{array}\right.$$
+sí tiene solución, donde $y\in\mathbb{R}^n,v\in\mathbb{R}$. 
+
+
+Como tenemos $v\geq 0$, distinguimos dos casos:
+
+\begin{itemize}
+\item Si $v> 0$, podemos dividir la segunda desigualdad por $-v$ cambiando su sentido y obtenemos $A\left(\frac{-1}{v}y\right)\leq b$, con lo que tenemos que $\frac{-1}{v}y\in Q$ por definición de $Q$. Si aplicamos lo mismo en la tercera desigualdad, llegamos a que $c\left(\frac{-1}{v}\right)y>d$, lo que contradice el hecho de que $cx\leq d$ es válida en $Q$.
+
+\item Si $v=0$, entonces el sistema queda
+$$\left\{\begin{array}{rcl}
+Ay &\geq & 0\\
+cy & < & 0
+\end{array}\right..$$
+
+Si tomamos $t\in\mathbb{R}$ suficientemente grande, tendremos que $A(-ty)\leq b$ con lo que $-ty\in Q$ y $c(-ty)>d$, lo que contradice el hecho de que $cx\leq d$ es válida en $Q$.
+\end{itemize}
+
+
+$\Longleftarrow$ Consideramos $a_i=(a_{1i},\ldots,a_{mi})$ para cada $i\in \{1,\ldots,n\}$. $Q$ se escribe, entonces, de la forma
+
+$$Q:\left\{\begin{array}{ccccccc}a_{11}x_1 &  + & \cdots & + & a_{1n}x_n & \leq & b_1\\
+\vdots &  & \vdots &  & \vdots &  & \vdots\\
+a_{m1}x_1 & + & \cdots &  + & a_{mn}x_n & \leq & b_m\end{array}\right..$$
+
+Suponemos que $(c;d)\in\text{cone}(a_1;b_1,\ldots,a_m;b_m,(0;1))\subset\mathbb{R}^n\times\mathbb{R}$, es decir, que existen $\lambda_0,\lambda_1,\ldots,\lambda_m\geq 0$ tales que $c=0\lambda_0+\lambda_1a_1+\cdots+\lambda_m a_m$ y $d=1\lambda_0+\lambda_1b_1+\cdots+\lambda_m b_m$. Por tanto, tenemos que si $c=(c_1,\ldots,c_m)$, entonces
+$$\left\{\begin{array}{ccccccccc}c_1 & = & 0\lambda_0 & + & \lambda_1a_{11} & + & \cdots & + & \lambda_ma_{m1}\\
+\vdots & & \vdots & &\vdots & &\vdots & & \vdots\\
+c_n & = & 0\lambda_0 & + & \lambda_1a_{1n} & + & \cdots & + & \lambda_m a_{mn}\end{array}\right.\qquad \text{y}\qquad d=1\lambda_0+\lambda_1b_1+\cdots+\lambda_mb_m.$$
+
+Tomamos ahora $x=(x_1,\ldots, x_n)\in Q$ y tenemos que probar que $cx\leq d$, es decir
+$$\begin{array}{rcl}cx\leq d & \longleftrightarrow & \begin{pmatrix}
+c_1 \cdots  c_n\end{pmatrix}\begin{pmatrix}
+x_1\\ \vdots\\ x_n
+\end{pmatrix}\leq d\\ & \longleftrightarrow & (\lambda_1a_{11}+\cdots+\lambda_ma_{m1})x_1+\cdots+(\lambda_1a_{1n}+\cdots+\lambda_ma_{mn})x_n\leq 1\lambda_0+\lambda_1b_1+\cdots+\lambda_m b_m\end{array}.$$
+
+Pero claramente se cumple porque podemos reordenar los términos y, aplicando la definición del poliedro $Q$, tenemos que 
+$$\lambda_1(a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n)+\cdots+\lambda_m(a_{m1}x_1+\cdots+a_{mn}x_n)
+\leq \lambda_0+\lambda_1b_1+\cdots+\lambda_mb_m\longleftrightarrow cx\leq d.$$
+
+Por tanto, $cx\leq d$ es cierta para todo $x\in Q$ como queríamos probar.
+
+
+\textbf{Ejercicio 3.} (Dualidad de politopos). Sea $P=\text{conv}\left\{p_1,\ldots,p_N\right\}\subset\mathbb{R}^n$ un politopo. Consideramos el poliedro $Q$ en $\mathbb{R}^n$ definido tomando como ecuaciones los puntos que definen $P$. Es decir:
+$$Q=\left\{x\in\mathbb{R}^n : p_ix\leq 1,\forall i\in\{1,\ldots,N\}\right\}.$$
+
+(a) $Q$ contiene al origen en su interior. Es decir: $\forall v\in\mathbb{R}^n$ existe un $\epsilon>0$ tal que $\epsilon v\in Q$.
+
+
+\textbf{Solución.}
+
+Sea $v\in\mathbb{R}^n$, queremos encontrar un $\epsilon>0$ tal que $\epsilon v\in Q$. Suponemos que $p_i=(p_1^i,\ldots,p_n^i)$ para cada $i\in\{1,\ldots,N\}$ con lo que $Q$ se escribe de la forma
+
+$$Q:\left\{\begin{array}{ccccccc}p^1_1x_1 &  + & \cdots & + & p_n^1x_n & \leq & 1\\
+\vdots &  & \vdots &  & \vdots &  & \vdots\\
+p_1^Nx_1 & + & \cdots &  + & p_n^Nx_n & \leq & 1\end{array}\right..$$
+
+Si $v=(v_1,\ldots,v_n)$, calculando los productos $p_iv$ para cada $i\in\{1,\ldots,N\}$, obtenemos
+
+$$\left\{\begin{array}{ccccccc}p_1^1v_1 &  + & \cdots & + & p_n^1v_n & = & \alpha_1\\
+\vdots &  & \vdots &  & \vdots &  & \vdots\\
+p_1^Nv_1 & + & \cdots &  + & p_n^Nv_n & = & \alpha_N\end{array}\right..$$
+
+Consideramos $A=\{i\in\{1,\ldots, N\} : \alpha_i>1\}$. Si $A$ es vacío, entonces claramente $v\in Q$ y podemos tomar simplemente $\epsilon=1>0$. Si $A$ es no vacío, tomamos $\epsilon=\frac{1}{\prod\limits_{i\in A}\alpha_i}>0$. Multiplicando por $\epsilon$, tenemos las siguientes igualdades
+
+$$\left\{\begin{array}{ccccccc}p_1^1\epsilon v_1 &  + & \cdots & + & p_n^1\epsilon v_n & = & \frac{\alpha_1}{\prod\limits_{i\in A}\alpha_i}\\
+\vdots &  & \vdots &  & \vdots &  & \vdots\\
+p_1^N\epsilon v_1 & + & \cdots &  + & p_n^N\epsilon v_n & = & \frac{\alpha_N}{\prod\limits_{i\in A}\alpha_i}\end{array}\right..$$
+
+Observamos que $\prod\limits_{i\in A}\alpha_i> 1$ y distinguimos dos casos:
+\begin{itemize}
+\item Si $j\in A$, entonces $\frac{\alpha_j}{\prod\limits_{i\in A}\alpha_i}=\frac{1}{\prod\limits_{\underset{i\neq j}{i\in A}}\alpha_i}\leq 1$.
+\item Si $j\notin A$, entonces $\alpha_j\leq 1$ y también $\frac{\alpha_j}{\prod_{i\in A}\alpha_i}\leq 1$.
+\end{itemize}
+
+Por tanto, $\epsilon v\in Q$ y $Q$ contiene al origen en su interior.
+
+
+(b) $Q$ es acotado si y solo si $P$ contiene al origen en su interior.
+
+\textbf{Solución.}
+
+Equivalentemente, tenemos que ver que para todo $c\in\mathbb{R}^n$, el programa $$(P)\left\{\begin{array}{cc}\text{Maximizar} & cx\\
+\text{sujeto a} & x\in Q
+\end{array}\right.$$ es acotado si y solo si para todo $v\in \mathbb{R}^n$, existe $\epsilon>0$ tal que $\epsilon v\in P$.
+
+$\Longrightarrow$ Si $Q=\emptyset$, es porque $P=\emptyset$, por tanto, $P$ no contiene al origen en su interior.
+
+Suponemos ahora que $Q\neq\emptyset$ es acotado. Para todos $c\in\mathbb{R}^n$ y $\epsilon>0$, el programa
+$$(P)\left\{\begin{array}{cc}\text{Maximizar} & \epsilon cx\\
+\text{sujeto a} & x\in Q
+\end{array}\right.$$
+es factible y acotado. Por el teorema de dualidad fuerte, el programa dual
+$$(D)\left\{\begin{array}{cc}\text{Minimizar} & y_1+\cdots+y_n\\
+\text{sujeto a} & \begin{array}{ccccccc}y_1p_1^1 & + & \cdots & + & y_np_1^N & =& \epsilon c_1\\
+\vdots & & \vdots & & \vdots & & \vdots\\
+
+y_1p_n^1 & + & \cdots & + & y_nP_n^N & = & \epsilon c_n
+
+\end{array}\\
+& y_1,\ldots,y_n\geq 0
+
+\end{array}\right.$$
+es factible. Esto implica que $\epsilon c\in\text{cone}(p_1,\ldots,p_n)$. Pero, podemos tomar $\epsilon$ suficientemente pequeño de manera que $\epsilon c\in P$ con lo que $P$ contiene al origen en su interior.
+
+$\Longleftarrow$ Suponemos que existe un $c\in\mathbb{R}^n$ de manera que el programa $(P)$
+no es acotado. Esto implica que para todo $\epsilon>0$, el programa 
+$$(P')\left\{\begin{array}{cc}\text{Maximizar} & \epsilon cx\\
+\text{sujeto a} & x\in Q
+\end{array}\right.$$
+tampoco es acotado porque solo hemos multiplicado la función objetivo por un escalar positivo.
+Por el teorema de dualidad débil, el programa dual
+$$(D)\left\{\begin{array}{cc}\text{Minimizar} & y_1+\cdots+y_n\\
+\text{sujeto a} & \begin{array}{ccccccc}y_1p_1^1 & + & \cdots & + & y_np_1^N & =& \epsilon c_1\\
+\vdots & & \vdots & & \vdots & & \vdots\\
+
+y_1p_n^1 & + & \cdots & + & y_nP_n^N & = & \epsilon c_n
+
+
+\end{array}\\
+& y_1,\ldots,y_n\geq 0
+
+\end{array}\right.$$
+es no factible. Pero esto implica que para todo $\epsilon>0$, $\epsilon c\notin\text{cone}(p_1,\ldots,p_N)\supseteq P$ con lo que para todo $\epsilon>0$, $\epsilon c\notin P$ y $P$ no contiene al origen en su interior.
+
+(c) Sea $a\in\mathbb{R}^n$. La ecuación lineal $ax\leq 1$ es válida en $P$ si y solo si $a\in Q$.
+
+$\Longrightarrow$ Si $ax\leq 1$ es válida en todo $P$, en particular es válida con $x=P_i$ para cada $i\in\{1,\ldots, N\}$ y entonces claramente $a\in Q$ por construcción de $Q$.
+
+
+$\Longleftarrow$ Sea $a\in Q$. Si $a=(a_1,\ldots,a_n)$, entonces $a$ cumple
+
+$$\left\{\begin{array}{ccccccc}a_1p_1^1 & + & \cdots & + & a_np_n^1 & \leq & 1\\
+\vdots & & \vdots & & \vdots & & \vdots\\
+a_1p_1^N & + & \cdots & + & a_np_n^N & \leq & 1 
+\end{array} \right.$$
+Sea $x=(x_1,\ldots,x_n)\in P$, por definición, existen $\lambda_1,\ldots,\lambda_N\geq 0$ tales que $\sum\limits_{i=0}^N\lambda_i=1$ y
+$$\left\{\begin{array}{ccccccc}x_1 & = & \lambda_1p_1^1 & + & \cdots & + & \lambda_Np_1^N\\
+\vdots & & \vdots & & \vdots & & \vdots\\
+x_n & = & \lambda_1p_n^1 & + & \cdots & + & \lambda_N p_n^N\end{array}\right.$$
+Tenemos que probar que $ax\leq 1$, es decir
+$$\begin{array}{rcl}ax\leq 1 & \longleftrightarrow & \begin{pmatrix}
+a_1 \cdots  a_n\end{pmatrix}\begin{pmatrix}
+x_1\\ \vdots\\ x_n
+\end{pmatrix}\leq 1\\ & \longleftrightarrow & a_1(\lambda_1p_1^1+\cdots+\lambda_Np_1^N)+\cdots+a_n(\lambda_1p_n^1+\cdots+\lambda_Np_n^N)\leq 1\end{array}$$
+Pero claramente se cumple porque podemos reordenar los términos y, aplicando la definición del poliedro $Q$, tenemos que 
+$$\lambda_1(a_1p_1^1+a_2p_2^1+\cdots+a_np_n^1)+\cdots+\lambda_N(a_1p_1^N+\cdots+p_n^Na_n)
+\leq \sum\limits_{i=1}^N\alpha_i=1$$
+
+(d) Suponer que $0\in\text{interior}(P)$ (o sea, $Q$ acotado) y sea $a\in\mathbb{R}^n$. Entonces, la ecuación lineal $ax\leq 1$ es válida en $Q$ si y solo si $a\in P$.
+
+
+\textbf{Solución.}
+
+$\Longrightarrow$ Suponemos que $ax\leq 1$ es válida en todo el poliedro $Q$. Por el Ejercicio 2,
+$$(a;1)\in\text{cone}((p_1;1,p_N;1),(0;1)),$$
+es decir, existen $\lambda_0,\lambda_1,\ldots,\lambda_N\geq 0$ tales que 
+$$\left\{\begin{array}{ccccccc}a_1 & = & \lambda_1p_1^1 & + & \cdots & + & \lambda_Np_1^N\\
+\vdots & & \vdots & & \vdots & & \vdots\\
+a_n & = & \lambda_1p_n^1 & + & \cdots & + & \lambda_N p_n^N\end{array}\right.$$
+$$1=\lambda_0+\lambda_1+\cdots+\lambda_N$$
+Como $0$ está en el interior de $P$, tenemos expresado $a$ como combinación convexa de elementos de $P$, en particular, de sus generadores como politopo y de $0\in P$, por tanto, $a\in P$ por definición de politopo.
+
+$\Longleftarrow$ Sea $a\in P$. Por definición, existen $\lambda_1,\ldots,\lambda_N\geq 0$ con $\sum\limits_{i=1}^N\lambda_i=1$ tales que
+$$\left\{\begin{array}{ccccccc}a_1 & = & \lambda_1p_1^1 & + & \cdots & + & \lambda_Np_1^N\\
+\vdots & & \vdots & & \vdots & & \vdots\\
+a_n & = & \lambda_1p_n^1 & + & \cdots & + & \lambda_N p_n^N\end{array}\right.$$
+Sea $x=(x_1,\ldots,x_n)\in Q$. Tenemos que probar que $ax\leq 1$, es decir
+$$\begin{array}{rcl}ax\leq 1 & \longleftrightarrow & \begin{pmatrix}
+a_1 \cdots  a_n\end{pmatrix}\begin{pmatrix}
+x_1\\ \vdots\\ x_n
+\end{pmatrix}\leq 1\\ & \longleftrightarrow & (\lambda_1p_1^1+\cdots+\lambda_Np_1^N)x_1+\cdots+(\lambda_1p_n^1+\cdots+\lambda_Np_n^N)x_n\leq 1\end{array}$$
+Pero claramente se cumple porque podemos reordenar los términos y, aplicando la definición del poliedro $Q$, tenemos que 
+$$\lambda_1(p_1^1x_1+p_2^1x_2+\cdots+p_n^1x_n)+\cdots+\lambda_N(p_1^Nx_1+\cdots+p_n^Nx_n)
+\leq \sum\limits_{i=1}^N\alpha_i=1$$
+Por tanto, $ax\leq 1$ es válida en $Q$.
+
+\end{document}

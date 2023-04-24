@@ -1,0 +1,217 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage[spanish,onelanguage]{algorithm2e}
+%\setlength{\parindent}{0em}
+\usepackage[left=3cm,right=3cm,top=2cm,bottom=2.5cm]{geometry}
+\author{Ángel Ríos San Nicolás}
+\theoremstyle{definition}
+\newtheorem{ejer}{Ejercicio}
+\newtheorem*{sol}{Solución}
+\title{Optimización Combinatoria}
+\date{Hoja 3--Matroides\\ 1 de diciembre de 2020}
+
+\begin{document}
+\maketitle
+
+\begin{ejer} Sea $E$ un conjunto finito y $\mathcal{B}\subset 2^E$ una familia de subconjuntos que cumple:
+\begin{enumerate}[labelindent=\parindent, label=(B\arabic*), ref=\arabic*]
+\item $\mathcal{B}\neq \emptyset$
+\item $\forall X,Y\in\mathcal{B}$ y $\forall f\in X\setminus Y$, $\exists e\in Y\setminus X$ tal que $X\setminus\{f\}\cup \{e\}\in \mathcal{B}$
+\end{enumerate} 
+Demostrar que $\mathcal{B}$ es el conjunto de bases de una matroide $M=(E,\mathcal{I})$ con
+$$\mathcal{I}:=\{X\subset E : \exists Y\in\mathcal{B},\text{ con } X\subset Y\}.$$
+\end{ejer}
+\begin{sol}\phantom{}
+
+Necesitamos probar primero que los elementos de $\mathcal{B}$ tienen el mismo cardinal. Razonamos por reducción al absurdo. Suponemos que existen $B_1,B_2\in\mathcal{B}$ tales que, sin pérdida de generalidad, $|B_1|< |B_2|$. Podemos escogerlos de manera que la interesección $B_1\cap B_2$ tenga máximo cardinal entre los que lo cumplen. Como $|B_1|<|B_2|$, existe $f\in B_2\setminus B_1$ y, por (B2), existe $e\in B_1\setminus B_2$ tal que 
+$$B_2\setminus \{f\}\cup \{e\}\in\mathcal{B}.$$ 
+Esto es absurdo porque $|B_1|<|B_2|=|B_2\setminus \{f\}\cup \{e\}|$, pero $B_1\cap(B_2\setminus\{f\}\cup\{e\}) =(B_1\cap B_2)\cup \{e\}$ que tiene un elemento más que la intersección que habíamos supuesto máxima. Por tanto, dados conjuntos $B_1,B_2\in\mathcal{B}$, se tiene la igualdad de los cardinales $|B_1|=|B_2|$.
+
+Veamos ahora que $\mathcal{I}$ define una matroide sobre $E$.
+\begin{enumerate}[labelindent=\parindent, label=(I\arabic*), ref=\arabic*]
+\item $\emptyset\in\mathcal{I}$.\\
+Como $\mathcal{B}\neq \emptyset$, existe $B\in\mathcal{B}$. Como el vacío es subconjunto de todo conjunto, $\emptyset\subseteq B$ y $\emptyset\in\mathcal{I}$.
+\item Si $X\subseteq Y\subseteq E$ con $X\subseteq Y\in\mathcal{I}$, entonces $X\in\mathcal{I}$.\\
+Como $Y\in\mathcal{I}$, existe $B\in\mathcal{B}$ tal que $X\subseteq Y\subseteq B$ con lo que $X\in\mathcal{I}$. 
+\item Si $X,Y\in\mathcal{I}$ con $|X|<|Y|$, existe $e\in Y\setminus X$ tal que $X\cup\{e\}\in\mathcal{I}.$\\
+Razonamos por reducción al absurdo. Suponemos que existen $X,Y\in\mathcal{I}$ con $|X|<|Y|$ tales que para todo $e\in Y\setminus X$ se tiene $X\cup\{e\}\notin\mathcal{I}$. Como $X,Y\in\mathcal{I}$, existen $B_1,B_2\in\mathcal{B}$ tales que $X\subseteq B_1$ e $Y\subseteq B_2$. Entre los que lo cumplen, podemos escogerlos de tal manera que $B_1\cap B_2$ tenga cardinal máximo.
+
+Supongamos que existe $e\in (Y\cap B_1)\setminus X$. Se tiene que 
+$$X\cup\{e\}\subseteq B_1\cup ((Y\cap B_1)\setminus X)\subseteq B_1$$
+con lo que $X\cup\{e\}\in\mathcal{I}$ que contradice la suposición. Por tanto, $(Y\cap B_1)\setminus X=\emptyset$ y se tiene $Y\cap B_1\subseteq X$ y el complementario de $B_1$ en $Y$ es lo mismo que el de $X$ con lo que $Y\setminus B_1=Y\setminus X.$
+
+Supongamos que existe $f\in B_2\setminus(Y\cup B_1)$. Como $f\in B_2\setminus B_1$, por (B2), existe $e\in B_1\setminus B_2$ tal que $B_2\setminus \{f\}\cup\{e\}\in\mathcal{B}.$ En estas condiciones podríamos haber tomado $Y\subseteq B_2\setminus \{f\}\cup\{e\}$ con el que se tiene $|B_1\cap (B_2\setminus \{f\}\cup\{e\})|>|B_1\cap B_2|$ que contradice el hecho de que la intersección tenía cardinal máximo. Por tanto, $B_2\setminus (Y\cup B_1)=\emptyset$ con lo que $B_2\subseteq Y\cup B_1$, pero como además teníamos $Y\subseteq B_2$, se cumple que $B_2\setminus B_1=Y\setminus B_1=Y\setminus X$.
+
+Hacemos el mismo razonamiento análogo para $B_1\setminus (X\cup B_2)$ con lo que llegamos a que debe ser vacío y entonces $B_1\subseteq X\cup B_2$, pero como también $X\subseteq B_1$, se cumple que $B_1\setminus B_2=X\setminus B_2$ que es un subconjunto de $X\setminus Y$ con lo que tiene menor o igual cardinal.
+
+Por lo visto antes, $B_1$ y $B_2$ tienen el mismo cardinal con lo que también $|B_2\setminus B_1|=|B_1\setminus B_2|$. Tenemos entonces que 
+$|Y\setminus X|=|B_2\setminus B_1|=|B_1\setminus B_2|\leq |X\setminus Y|$. Usando que $X=(Y\cap X)\cup (X\setminus Y)$ e $Y=(Y\cap X)\cup(Y\setminus X)$ donde las uniones son disjuntas, se tiene
+$$|Y|=|Y\cap X|+|Y\setminus X|\leq |Y\cap X|+|X\setminus Y|=|X|,$$
+que es una contradicción porque habíamos supuesto $|X|<|Y|$.
+
+Por lo tanto, existe $e\in Y\setminus X$ tal que $X\cup\{e\}\in\mathcal{I}$.
+\end{enumerate}
+El conjunto $\mathcal{I}$ define una matroide sobre $E$.
+
+A partir de aquí es fácil observar que los elementos de $\mathcal{B}$ son las bases de $M=(E,\mathcal{I})$ como matroide, es decir, los conjuntos independientes maximales. Sea $B\in\mathcal{B}$, claramente $B$ es independiente porque se contiene a sí mismo, $B\in\mathcal{I}$. Sea $B\in\mathcal{B}$ y sea $X$ un conjunto independiente tal que $B\subseteq X$. Tenemos que ver que $X=B$. Como $X$ es independiente, existe $B'\in\mathcal{I}$ tal que $X\subseteq B'$. Si $B=B'$, entonces es inmediato que $X=B$ porque si los elementos de $B'$ están en $B$, en particular también los de $X\subseteq B'$. Si $B\neq B'$, como $B\subseteq B'$, existe $f\in B'\setminus B$, pero, por (B2), eso implica que existe $e\in B\setminus B'$ tal que $B'\setminus\{f\}\cup\{e\}\in\mathcal{B}$ que es una contradicción con el hecho de que $B\subseteq B'$.
+
+Por tanto, los elementos de $\mathcal{B}$ son las bases de la matroide $M$.
+\end{sol}
+
+
+\begin{ejer} (Scheduling). Considérese el siguiente problema: tenemos cierto conjunto $E=\{t_1,\ldots,t_n\}$ de tareas que debemos hacer (o hacer las que podamos), cada una con beneficio $b_i$ $(i=1,\ldots, n)$. Cada tarea nos ocuparía la misma cantidad de tiempo (digamos una hora) y cada tarea tiene también un deadline $d_i$, lo cual significa que la tarea $i$ solo nos la pagan si la hacemos entre las $d_i$ primeras. Se trata de decidir qué tareas debemos hacer y en qué orden para maximizar el beneficio total obtenido. Para ello sea 
+$$\mathcal{I}:=\{S\subset E: \text{ es posible hacer todas las tareas del conjunto $S$ antes de su deadline}\}.$$
+\begin{enumerate}[labelindent=\parindent, label=(\alph*), ref=\alph*]
+\item Demostrar que un conjunto $S$ está en $\mathcal{I}$ si, y sólo si, es posible hacerlas todas \textit{en el orden dado por sus respectivos deadlines} (la de definición de $\mathcal{I}$ solo pide que sea posible hacerlas todas, con respecto a \textit{algún} orden).
+
+\item Demostrar que $\mathcal{I}$ es una matroide en el conjunto $E$. Deducir un algoritmo óptimo para elegir un conjunto $S$ de tareas que se pueden hacer y que maximiza el beneficio.
+\item Considérese el grafo bipartito $G$ que tiene las $n$ tareas como vértices en un lado y los números del $1$ a $n$ en el otro, y cuyas aristas consisten en unir la $i$-ésima tarea con los números $1,2,\ldots,d_i
+$. Comprobar que $\mathcal{I}$ coincide con el siguiente conjunto:
+$$\{S\subset \{t_1,\ldots,t_n\}: G\text{ tiene un emparejamiento que cubre a }S\}.$$
+\end{enumerate}
+\end{ejer}
+\begin{sol}\phantom{}
+\begin{enumerate}[labelindent=\parindent, label=(\alph*), ref=\alph*]
+\item Dada una permutación $\sigma$ de las tareas de $E$, denotamos por $\sigma(t_i)$ a la posición en la que se realiza $t_i$ en esa permutación para cada $i\in\{1,\ldots, n\}$.
+
+Sea un subconjunto $S\subseteq E$, para cada $d\in\{0,\ldots, n\}$ definimos $S(d)=\{t_i\in S: d_i\leq d\}$ el conjunto de las tareas de $S$ cuyo deadline es menor o igual que $d$. En particular $S(0)=\emptyset$ para todo conjunto $S\subseteq E$. Vamos a ver que son equivalentes:
+\begin{enumerate}[label=(\arabic*)]
+\item Se pueden hacer todas las tareas de $S$ antes de sus deadlines.
+\item Para todo $d\in\{0,\ldots, n\}$, se cumple $|S(d)|\leq d$.
+\item Si se hacen las tareas de $S$ en el orden dado por sus respectivos deadlines, entonces $S\in\mathcal{I}$.
+\end{enumerate}
+(1)$\Longrightarrow$(2) Si existe $d\in\{1,\ldots,n\}$ tal que $|S(d)|>d$, es decir, si hay más de $d$ tareas en $S$ cuyo deadline es a lo sumo $d$, no hay forma de permutar las tareas de manera que las de $S$ se hagan todas antes de su deadline porque hay más de $d$ tareas para terminarlas antes del tiempo $d$. Por tanto, debe ser $|S(d)|\leq d$ para todo $d\in\{0,\ldots, n\}$.
+
+(2)$\Longrightarrow$(3) Suponemos una permutación de las tareas en la que las tareas de $S$ se hacen en el orden dado por sus respectivos deadlines. Por (2) sabemos que el $d$-ésimo deadline  en $S$ es a lo sumo $d$ con lo que las tareas de $S$ se hacen antes de su deadline.
+
+(3)$\Longrightarrow$(1) Es trivial, si las tareas de $S$ se pueden hacer antes de su deadline, entonces $S\in\mathcal{I}$.
+\item Vamos a ver que es una matroide por la definición.
+
+\begin{enumerate}[label=(I\arabic*)]
+\item  El vacío es independiente porque, si no hay tareas, no hay nada que demostrar.
+\item Dados unos subconjuntos de tareas $X$ e $Y$ tales que $X\subseteq Y$. Si $Y$ es un conjunto independiente, es decir, si es posible hacer todas las tareas de $Y$ antes de su deadline, entonces también se pueden realizar antes de su deadline todas las de $X$.
+\item Vamos a utilizar la caracterización (2) para conjuntos en $\mathcal{I}$ del apartado anterior. Suponemos que $X,Y\in\mathcal{I}$ tales que $|X|<|Y|$. Tenemos que probar que existe $e\in Y\setminus X$ con $X\cup\{e\}\in\mathcal{I}$. Como $X,Y\in\mathcal{I}$, para todo $d\in \{0,\ldots,n\}$ se cumplen $|X(d)|\leq d$ y $|Y(d)|\leq d$. Consideramos el mayor $k\in\{0,\ldots, n\}$ tal que $|X(k)|=|Y(k)|$ que existe porque al menos $|X(0)|=0=|Y(0)|$. Como $|X(n)|=|X|<|Y|=|Y(n)|$, debe ser $k<n$ y $|X(i)|<|Y(i)|$ para todo $i\in\{k+1,\ldots, n\}$. En particular, existe una tarea $e\in Y\setminus X$ con deadline $k+1$. Veamos que $Z=X\cup\{e\}\in\mathcal{I}$. Sea $d\in\{0,\ldots, n\}.$ Tenemos que 
+$$Z(d) = \left\{\begin{array}{ccc}
+X(d) & \text{si} & d\leq k\\
+X(d)\cup\{e\} & \text{si} & d> k
+\end{array}\right..$$
+
+Por tanto, si $d\leq k$, $|Z(d)|=|X(d)|\leq d$ porque $X\in\mathcal{I}$ con lo que $Z\in\mathcal{I}$. Y si $d>k$, entonces $|Z(d)| = |X(d)|+1\leq |Y(d)|\leq d$ porque $Y\in\mathcal{I}$ con lo que también $Z\in\mathcal{I}$.
+\end{enumerate}
+El conjunto $\mathcal{I}$ define una matroide en $E$. Como es una matroide, podemos asignarle a cada tarea como peso el beneficio. Sabemos que el algoritmo greedy para matroides con pesos encuentra un conjunto independiente con peso máximo. En este caso, resuelve el problema de optimización de encontrar un conjunto de tareas de manera que todas se pueden realizar antes de sus respectivos deadlines y tal que la suma de los beneficios es máxima. El algoritmo greedy para este problema se puede describir como sigue.
+
+\begin{algorithm}[H]
+\SetAlgoLined\DontPrintSemicolon
+\KwIn{La matroide $(E,\mathcal{I})$ y la función de pesos $w : E\longrightarrow \mathbb{R}, t_i\longmapsto w(t_i)=b_i$ que define el beneficio de cada tarea.}
+\KwOut{Para cada $k\in\{1,\ldots, n\}$, un sistema de $k$ tareas con beneficio máximo.}
+ Inicialización: $E=(t_i)_i$ el conjunto de tareas en orden descendente de beneficio, $S_0=\emptyset$.\;
+ \For{$i=1$ hasta $n$ }{
+  \If{las tareas de $S_{i-1}\cup\{t_i\}$ en el orden dado por sus deadlines se hacen antes de sus deadlines}{
+   $S_{i}=S_{i-1}\cup\{t_i\}$\;
+   }
+   
+ }
+\end{algorithm}
+Este algoritmo depende de un oráculo que decide en cada caso si $S_{i-1}\cup\{t_i\}$ es o no independiente. En este caso podemos aprovechar la formulación del problema para decidirlo algorítmicamente porque un conjunto $S$ es independiente si y solo si para todo $d\in\{0,\ldots,n\}$ se tiene $|S(d)|\leq d$. La subrutina que decide si un subconjunto de tareas es independiente es la siguiente.
+
+\begin{algorithm}[H]
+\SetAlgoLined\DontPrintSemicolon
+\KwIn{Un subconjunto $S\subseteq E$ de tareas con sus respectivos deadlines $D=\{d_i: t_i\in S\}$.}
+\KwOut{\textbf{Sí} si se pueden hacer todas las tareas de $S$ antes de su deadline en el orden dado por su respectivos deadlines y $\textbf{no}$ en caso contrario.}
+ Inicialización: $S=(t_i)_i$ ordenados ascendentemente por sus deadlines, $n=0$\;
+ \For{$d=1$ hasta $n$ }{
+ 	$N=0$, $k=0$\;
+ 	\For{$i=1$ hasta $n$}{
+ 	\If{$d_i\leq d$}{
+ 	 $N = N+1$\;
+ 	 $k=k+1$\;
+ 	}
+ 	
+}
+\If{$N>d$}{\KwRet{\textbf{No}}\;}
+  
+   
+ }
+ \KwRet{\textbf{Sí}}\;
+\end{algorithm}
+Observamos que lo único que hacemos es contar en orden los elementos de $S(d)$ para cada $d\in\{0,\ldots,n\}$ y parar si no se cumple la condición. Si el bucle se completa sin devolver \textbf{no}, es porque se cumple la condición y devolvemos \textbf{sí}.
+\item Tenemos que ver que $S\in\mathcal{I}$ si y solo si $G$ tiene un emparejamiento que cubre a $S$.
+
+$\Longrightarrow$ Sea $S\in\mathcal{I}$ de cardinal $k$. Existe un orden de las tareas de $E$ de manera que las de $S$ se hacen todas en el orden dado por sus deadlines y cada una antes de su deadline. Suponemos las tareas de $S$ ordenadas por su deadline $t_{(1)},\ldots,t_{(k)}$. Como todas se hacen antes de su deadline, sabemos que $d_{(1)}\leq 1,\ldots,d_{(k)}\leq k$. Por tanto, en $G$ existen las aristas $t_{(1)}1,\ldots,t_{(k)}k$ que definen un emparejamiento del grafo bipartito que cubre $S$.
+
+$\Longleftarrow$ Sea un emparejamiento $M$ de tamaño $k$ que cubre $S$, es decir, un conjunto de aristas $t_{i_1}a_1,\ldots, t_{i_k}a_k$ del grafo bipartito con $i_1,\ldots,i_k,a_1,\ldots,a_k\in\{1,\ldots,n\}$. Las podemos considerar ordenadas por los deadlines $t_{(i_1)}a_{(1)},\ldots,t_{(i_{n})}a_{(k)}$ con $a_{(1)}<\cdots<a_{(k)}$. Por definición de $G$, la existencia de estas aristas implica, respecto a los deadlines de las tareas de $S$, que $a_{(j)}\leq d_{(i_j)}$ para todo $j\in\{1,\ldots,k\}$. Por tanto, podemos escoger la permutación de tareas de $E$ tal que hacemos primero las tareas de $S$ en el orden dado por $a_{(1)}\ldots,a_{(k)}$ y después el resto de tareas en cualquier orden. De esta manera se hacen todas las tareas de $S$ antes de sus deadlines y $S\in\mathcal{I}$.
+\end{enumerate}
+\end{sol}
+\begin{ejer} Sea $M$ una matroide de rango $r$ sobre un conjunto $E$. Se llaman \textit{cocircuitos} de $M$ a los circuitos de la matroide dual.
+\begin{enumerate}
+\item Demostrar que un subconjunto $C\subset E$ es un cocircuito si, y solo si, su complementario $\overline{C}:=E\setminus C$ tiene rango $r-1$ pero $\overline{C}\cup \{e\}$ tiene rango $r$ para todo $e\in C$.
+\item Llamaremos \textit{corte} en un grafo conexo $G=(V,E)$ a un conjunto $C$ de aristas tal que $G\setminus C$ no es conexo. Demostrar que en la matroide de $G$ un cocircuito es lo mismo que un corte minimal (un corte que no contiene a ningún otro).
+\end{enumerate}
+\end{ejer}
+\begin{sol}\phantom{}
+\begin{enumerate}
+\item 
+%\begin{align*}
+%C \text{ es cocircuito de } M & \longleftrightarrow C \text{ es circuito de } M^*\\
+%& \longleftrightarrow C \text{ es dependiente minimal de } M^*\\
+%& \longleftrightarrow C \text{ es minimal tal que no está contenido en ninguna base de } M^*\\
+%& \longleftrightarrow C \text{ es minimal tal que no está contenido en el complementario}\\
+%& \phantom{\longleftrightarrow} \text{ de ninguna base de } M\\
+%& \longleftrightarrow C\text{ es minimal tal que intereseca a toda base de }M\\
+%& \longleftrightarrow \overline{C}\text{ es maximal tal que no contiene a ninguna base de }M\\
+%& \longleftrightarrow \overline{C}\text{ no contiene a ninguna base de $M$, pero para todo $X$ tal que}\\
+%& \phantom{\longleftrightarrow} \overline{C}\subsetneq X\text{, $X$ sí contiene a una base de $M$}\\
+%& \longleftrightarrow\text{ Para todo $e\in C$, $\overline{C}$ no contiene ninguna base de $M$, pero $\overline{C}\cup\{e\}$}\\
+%& \phantom{\longleftrightarrow} \text{ sí contiene a una base de $M$}\\
+%& \longleftrightarrow\text{ $\overline{C}\cup\{e\}$ tiene rango $r$ para todo $e\in C$ y $\overline{C}$ tiene rango $r-1$}.
+%\end{align*}
+
+$C$ es cocircuito de $M$ $\longleftrightarrow$ $C$ es circuito de $M^*$ $\longleftrightarrow$ $C$ es dependiente minimal de $M^*$ $\longleftrightarrow$ $C$ es minimal tal que no está contenido en ninguna base de $M^*$ $\longleftrightarrow$ $C$ es minimal tal que no está contenido en el complementario de ninguna base de $M$ $\longleftrightarrow$ $C$ es minimal tal que intereseca a toda base de $M$ $\longleftrightarrow$ $\overline{C}$ es maximal tal que no contiene ninguna base de $M$ $\longleftrightarrow$ $\overline{C}$ no contiene ninguna base de $M$, pero para todo $X$ tal que $\overline{C}\subsetneq X$, $X$ sí contiene una base de $M$ $\longleftrightarrow$ Para todo $e\in C$, $\overline{C}$ no contiene ninguna base de $M$, pero $\overline{C}\cup\{e\}$ sí contiene una base de $M$ $\longleftrightarrow$ $\overline{C}\cup\{e\}$ tiene rango $r$ para todo $e\in C$ y $\overline{C}$ tiene rango $r-1$.
+
+Las cinco primeras equivalencias son reescritura inmediata de la definción de cocircuito de una matroide. La sexta también es clara.
+
+$\longleftrightarrow$ Sea $B$ es una base de $M$. Decir que $C\cap B\neq \emptyset$, es equivalente a decir que $B\nsubseteq \overline{C}$ porque $B$ tiene elementos de $C$. Dado $C'$ cualquiera con $C'\subseteq C$. Que $C'\cap B\neq \emptyset$ para toda base $B$ de $M$ implique $C'=C$ es equivalente a decir que $B\nsubseteq E\setminus C'$ para toda base $B$ de $M$ implica $E\setminus C' = E\setminus C$. Con esto hemos visto la equivalencia entre la minimalidad de $C$ y la maximalidad del complementario con sus respectivas propiedades.
+
+La séptima equivalencia es la definición de maximalidad en ese caso. La penúltima equivalencia también es clara.
+
+$\longrightarrow$ Es trivial porque dado $e\in C$, basta tomar el conjunto $X=\overline{C}\cup\{e\}$ que contiene propiamente a $\overline{C}$ y se tiene que $\overline{C}$ no contiene una base de $M$, pero $\overline{C}\cup\{e\}$ sí.
+
+$\longleftarrow$ Dado un conjunto $X$ tal que $\overline{C}\subsetneq X$, existe $e\in X\setminus \overline{C}$. Entonces se tiene por hipótesis que $\overline{C}$ no contiene una base de $M$, pero $\overline{C}\cup\{e\}\subsetneq X$ sí contiene una base $B$ de $M$ con lo que $B\subseteq X$ como queríamos probar.  
+
+La última equivalencia se tiene de lo siguiente.
+
+$\longrightarrow$ Si $\overline{C}$ no contiene una base, su cardinal no es $r$. Si fuera $r$, contendría un conjunto independiente de cardinal $r$, pero todo conjunto independiente está contenido en una base. Como el rango de la matroide es $r$, el cardinal de toda base es $r$ y el conjunto independiente sería una base contenida en $\overline{C}$. Como para todo $e\in C$, $\overline{C}\cup\{e\}$ contiene una base $B$, su cardinal es $r$. Por lo tanto, el rango de $\overline{C}$ es $r-1$ porque no contiene una base, pero sí contiene a $B\setminus \{e\}$ que, por ser subconjunto de la base $B$, es un conjunto independiente, y tiene cardinal $r-1$.
+
+$\longleftarrow$ Si $\overline{C}$ tiene rango $r-1$, entonces no contiene ninguna base de $M$ porque de lo contrario, su rango sería el cardinal de una base de $M$, es decir, $r$. Si para todo $e\in C$, $\overline{C}\cup\{e\}$ tiene rango $r$, significa que contiene un conjunto independiente de cardinal $r$ que ya hemos visto que debe ser una base de $M$. Por tanto, $\overline{C}$ no contiene una base de $M$, pero para todo $e\in C$, $\overline{C}\cup\{e\}$ sí contiene una base de $M$.
+
+\item Denotamos por $M$ a la matroide de $G$, es decir, los conjuntos independientes son los conjuntos de aristas que no contienen ciclos. Sabemos que las bases son los bosques generadores que en este caso son árboles porque el grafo es conexo.
+
+$\Longleftarrow$ Para probar que $C$ es cocircuito en $M$ vamos a ver que $E\setminus C$ no contiene una base de $M$, pero para todo $e\in C$, $(E\setminus C)\cup\{e\}$ sí contiene una base. Para la primera parte, razonamos por reducción al absurdo. Suponemos que $G\setminus C$ no es conexo y suponemos que $E\setminus C$ contiene una base de $M$. Esto significa que $E\setminus C$ contiene un árbol generador de $G$. Como $G\setminus C$ no es conexo, podemos considerar dos vértices $x,y\in V$ en diferentes componentes conexas. Observamos que cualquier camino de $x$ a $y$ en $G$ contiene una arista de $C$ porque al quitar $C$ están en diferentes componentes conexas. Como existe un árbol generador de $G$ contenido en $E\setminus C$, existe un camino de $x$ a $y$ en el árbol que no tiene aristas en $C$ lo que es una contradicción. Por tanto, $E\setminus C$ no contiene una base de $M$.
+
+Sea $e\in C$. Tenemos que probar que $(E\setminus C)\cup \{e\}$ contiene una base de $M$, es decir, un árbol generador de $G$. Por la minimalidad del corte, $G\setminus (C\setminus \{e\})$ es un grafo conexo y necesariamente contiene un árbol generador suyo. Pero los vértices coinciden con los de $G$ porque solo eliminamos las aristas con lo que el árbol también es generador de $G$ como queríamos probar.
+
+
+$\Longrightarrow$ Razonamos por reducción al absurdo. Suponemos que $C$ es un cocircuito de $M$, pero $G\setminus C$ es conexo. Como todo grafo conexo, $E\setminus C$ tiene un arbol generador. Como antes, los vértices del grafo son los de $G$ con lo que el árbol es también generador de $G$. Eso es imposible porque al ser $C$ cocircuito, $E\setminus C$ no puede contener ninguna base. Por lo tanto, $G\setminus C$ no es conexo.
+
+Para probar la minimalidad, razonamos también por reducción al absurdo, suponemos que existe un corte $C'\subsetneq C$ tal que también $G\setminus C'$ es no conexo. Estamos en las hipótesis de la implicación anterior con lo que $C'$ es un cocircuito de $M$. Pero esto es absurdo ya que por minimalidad de $C$, no puede contener un cocircuito $C'$ distinto.
+
+\end{enumerate}
+\end{sol}
+\begin{ejer} Considérese la matroide $M$ del grafo bipartito completo $K_{3,3}$ y su matroide dual $M^*$. Demostrar que $M^*$ no es la matroide de ningún grafo (lo cual implica que $K_{3,3}$ no es un grafo planar).
+\end{ejer}
+\begin{sol}\phantom{}\\
+Razonamos por reducción al absurdo. Suponemos que $M^*$ es gráfica. Existe un grafo $G$ con posibles aristas múltiples o lazos tal que $M^*$ es la matroide de $G$. Sabemos que podemos suponer sin pérdida de generalidad que $G$ es conexo.
+
+El grafo $K_{3,3}$ tiene $6$ vértices y $9$ aristas. La matroide dual de una matroide se construye sobre el mismo conjunto con lo que $G$ tiene también $9$ aristas. Por otro lado, el rango de la matroide $M$ es $5$ porque es el número de vértices menos el número de componentes conexas. Sabemos que el rango de la matroide dual debe ser $r(M^*)=|E|-r(M)=9-5=4$ con lo que el grafo $G$ tiene $5$ vértices, uno más que el rango porque $G$ tiene una única componente conexa.
+
+Por el \textit{handshaking lemma}, la suma de los grados de los vértices de cualquier  grafo finito es el doble del número de aristas. Si todos los vértices de $G$ tuvieran grado $4$, tendríamos $2|E|<4|V|$ por lo que existe un vértice de $G$ con grado a lo sumo $3$. El conjunto de aristas incidentes en ese vértice es un corte del grafo porque quitándolo desconectamos el vértice. Eso implica que contiene un corte minimal de tamaño a lo sumo $3$, es decir, que $M^*$ tiene un cocircuito de tamaño a lo sumo $3$. Como los cocircuitos de una matroide son los circuitos de la dual y la matroide dual de $M^*$ es $M$, existe un circuito de $M$ de tamaño a lo sumo $3$. Eso implica que $K_{3,3}$ tiene un ciclo de longitud $1$, $2$ o $3$ porque los circuitos de una matroide gráfica se corresponden con ciclos del grafo. Pero sabemos que $K_{3,3}$ es simple con lo que no tiene aristas múltiples ni lazos, lo que descarta ciclos de longitud $1$ y $2$. Pero $K_{3,3}$ tampoco tiene ciclos de longitud $3$ por ser bipartito. Un camino de longitud $2$ en $K_{3,3}$ tiene por extremos dos vértices de la misma partición y entre vértices de la misma partición no hay aristas con lo que no hay ciclos de longitud $3$. Hemos llegado a una contradicción. Por lo tanto, la matroide dual de la matroide del grafo $K_{3,3}$ no es gráfica.
+
+\end{sol}
+\end{document}

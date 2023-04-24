@@ -1,0 +1,232 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{ragged2e}
+%\setlength{\parindent}{0em}
+\usepackage[left=3cm,right=3cm,top=2cm,bottom=2.5cm]{geometry}
+\author{Ángel Ríos San Nicolás}
+\theoremstyle{definition}
+\newtheorem{ejer}{Ejercicio}
+\newtheorem*{sol}{Solución}
+\title{Optimización Combinatoria}
+\date{Hoja 2--Grafos y redes. Emparejamientos y flujos\\ 17 de noviembre de 2020}
+
+\begin{document}
+\maketitle
+\begin{ejer}Demostrar que en el grafo completo $K_n$ con $n\geq 4$, todas y cada una de las desigualdades del teorema de la Sección 4.2 del libro definen facetas y que son facetas distintas. Es decir, el politopo de emparejamientos de $K_n$ tiene $2^{n-1}+m$ facetas.\end{ejer}
+\begin{sol}
+Para probar que una desigualdad define una faceta, tenemos que ver que es imprescindible, es decir, que eliminarla produce un politopo más grande. Una manera de probar esto es encontrar un punto en $\mathbb{R}^{|E|}$ tal que no cumpla esa desigualdad pero sí el resto. 
+
+Por el teorema de la Sección 4.2, sabemos que el politopo de emparejamientos del grafo completo $K_n$ está descrito por desigualdades de tres tipos diferentes.
+
+Como el grafo es completo, sabemos que todo vértice es adyacente al resto con lo que su número de aristas es $$|E(K_n)|=(n-1)+\ldots+2+1=\frac{n(n-1)}{2}.$$ Podemos denotar los puntos $x\in\mathbb{R}^{|E|}$ como $(x_{12},x_{13},\ldots,x_{1n},x_{23},\ldots,x_{2n},x_{34},\ldots,x_{3n},\ldots,x_{(n-1)n})$.
+
+\begin{itemize}
+\item Desigualdades de tipo 1. 
+$$x_{ij}\geq 0\qquad\forall i,j\in\{1,\ldots, n\}\text{ con }i<j.$$
+
+\item Desigualdades de tipo 2.
+$$\sum_{\underset{v\in e}{e\in E(K_n)}}x_e\leq 1\qquad\forall v\in V$$
+\item Desigualdades de tipo 3. Para todo $W\subseteq V(K_n)$ con $|W|\geq 3$ impar,
+$$\sum_{e\subseteq W} x_e\leq\frac{|W|-1}{2}.$$
+\end{itemize}
+
+Sin pérdida de generalidad, para probar que toda desigualdad de tipo 1 o de tipo 2 define una faceta, es suficiente con probar que una sola desigualdad de cada tipo define una faceta porque el grafo completo es simétrico y, considerando permutaciones de los vértices, tendremos la demostración análoga para el resto de desigualdades de cada tipo. De la misma manera, fijado un conjunto de aristas de cardinal impar mayor que $3$, para probar que todas las desigualdades de tipo 3 correspondientes definen facetas, es suficiente con probar que una desigualdad lo cumple porque podemos considerar también permutaciones de los vértices y extender el resultado para el resto. Más aún, podemos suponer sin pérdida de generalidad que el conjunto consiste en los primeros vértices del grafo también salvo permutación de los mismos.
+
+Consideramos entonces la desigualdad $x_{12}\geq 0$ de tipo 1 y queremos ver que define una faceta. Consideramos el punto $x\in\mathbb{R}^{|E|}$ tal que $x_{12}=-1$ y $x_{ij}=0$ para todos $i,j\in\{1,\ldots, n\}$ con $i<j$. Claramente $x$ no cumple la desigualdad porque $x_{12}=-1\leq 0$. Para el resto de desigualdades, observamos que son sumas de las coordenadas de $x$ que son o $-1$ o $0$ con lo que las sumas son como mucho $0$ y, por tanto, son todas válidas en $x$ por ser menores que $1$.
+
+Como $x_{12}\geq 0$ define una faceta, todas las desigualdades de tipo 1 definen facetas.
+
+Ahora consideramos la desigualdad de tipo 2 dada por el vértice $1$, es decir, la desigualdad
+$$x_{12}+x_{13}+\cdots+x_{1\frac{n(n-1)}{2}}\leq 1, \qquad(\star)$$
+que queremos ver que define una faceta. Tomamos el punto $x\in\mathbb{R}^{|E|}$ dado por $$x_{12} = x_{13} = \cdots = x_{1\frac{n(n-1)}{2}}=\frac{1}{\frac{n(n-1)}{2}-2}$$ y, como antes, el resto de coordenadas nulas.
+
+Comprobamos fácilmente que la desigualdad se viola en $x$.
+$$x_{12}+x_{13}+\cdots+x_{1\frac{n(n-1)}{2}} =\frac{n(n-1)-2}{n(n-1)-4}>1$$
+porque $n\geq 4$ y $n(n-1)-2>n(n-1)-4$ si y solo si $-2>-4$.
+
+Claramente, todas las desigualdades de tipo 1 se cumplen en $x$ porque las coordenadas son $0$ o estrictamente positivas.
+Si consideramos una desigualdad de tipo 2 o de tipo 3 diferente, sabemos que tiene al menos un sumando distinto de los de $(\star)$ con lo que como mucho tiene $\frac{n(n-1)}{2}-2$ sumandos no nulos. Por tanto, la suma de las coordenadas correspondientes es a lo sumo 
+$$\left(\frac{n(n-1)}{2}-2\right)\frac{1}{\frac{n(n-1)}{2}-2} = 1$$
+y todas las desigualdades se cumplen en $x$.
+
+Como $(\star)$ define una faceta, todas las desigualdades de tipo 2 definen facetas.
+ 
+Sea ahora $W=\{1,2\ldots, 2k+1\}$ un conjunto de vértices de cardinal impar. Consideramos la desigualdad de tipo 3
+$$x_{12}+x_{13}+\cdots +x_{2k 2k+1}\leq \frac{2k+1-1}{2}=k,\qquad(\star\star)$$
+que queremos ver que define una faceta. Seguimos una estrategia parecida a la de antes y tomamos el punto $x\in\mathbb{R}^{|E|}$ dado por 
+$$x_{12}=x_{13}=\cdots = x_{2k2k+1}=\frac{1}{2k}$$
+y el resto de coordenadas nulas. Comprobamos que la desigualdad se viola en $x$. Observamos que el número de sumandos es el número de aristas en un grafo completo con $2k+1$ vértices, es decir, $(2k+1)k$ con lo que
+$$x_{12}+x_{13}+\cdots+x_{2k2k+1}=(2k+1)k\frac{1}{2k}=\frac{2k+1}{2}>1$$
+porque $k\geq 1$ y $2k+1>2$ si y solo si $2k>1$.
+
+Claramente, todas las desigualdades de tipo 1 se cumplen en $x$ porque las coordenadas son positivas.
+Para las desigualdades de tipo 2, nos fijamos en que los sumandos en estas desigualdades son las coordenadas correspondientes a las aristas que inciden en un cierto vértice. Si el vértice no pertenece a $W$, claramente la suma es $0\leq 1$ y si pertenece a $W$, está conectado a los otros $2k$ vértices del conjunto con lo que la suma de la desigualdad correpondiente es $2k\frac{1}{2k}=1\leq 1$ y por tanto, todas las desigualdades de tipo 2 son válidas en $x$. Para las desigualdades de tipo 3, consideramos un conjunto de vértices del grafo de cardinal $2p+1$ y distinguimos dos casos en relación a la desigualdad correspondidente:
+\begin{itemize}
+\item Si $k\neq p$, distinguimos a su vez dos casos:
+\begin{itemize}
+\item Si $p<k$, como mucho se tendría que los $2p+1$ vértices pertenecerían también a $W$ con lo que la desigualdad correspondiente sería válida porque $$(2p+1)p\frac{1}{2k}\leq p\longleftrightarrow \frac{2p+1}{2k}\leq 1\longleftrightarrow 2p+1\leq 2k\longleftrightarrow 2p<2k\longleftrightarrow p<k.$$
+\item Si $p>k$, como mucho solo se pueden sumar $(2k+1)k$ coordenadas no nulas que sería el caso en que el conjunto contiene a todo $W$, con lo que la desigualdad es válida porque 
+$$(2k+1)k\frac{1}{2k}\leq p\longleftrightarrow \frac{2k+1}{2}\leq p\longleftrightarrow 2k\leq 2p-1\longleftrightarrow k<p.$$
+\end{itemize}
+\item Si $k=p$, el conjunto no es $W$ y se diferencia de él a lo menos en un vértice con lo que a lo sumo la desigualdad correspondiente tiene tantas coordenadas no nulas como aristas hay en un grafo completo de $2k$ vértices, es decir, $k(2k+1)$. Con esto se comprueba que la desigualdad es válida porque en el peor de los casos, se sigue cumpliendo.
+$$k(2k+1)\frac{1}{2k}\leq k\longleftrightarrow 2k+1\leq 2k.$$
+\end{itemize}
+
+Por tanto, como la desigualdad $(\star\star)$ define una faceta, todas las desigualdades de tipo 3 definen facetas. Hemos probado que todas las desigualdades que describen el politopo de emparejamientos del grafo completo $K_n$ con $n\geq 4$ definen facetas.
+\end{sol}
+
+\begin{ejer} Sea $G=(V,E)$ un \textit{grafo dirigido} (también llamado una \textit{red}) con $n$ vértices y $m$ aristas. Es decir, $V$ es un conjunto de $n$ elementos (podemos pensar en él como $V=\{1,\ldots, n\}$) y $E=\{e_1,\ldots, e_m\}\subset V\times V$ es un conjunto de pares \textit{ordenados} de vértices. (Cada arista tiene un vértice de salida y uno de llegada, o una \textit{cola} y una \textit{cabeza}).
+
+Considérese la \textit{matriz de incidencia dirigida} de $G$: la matriz $A$ con $m$ columnas (una por arista) y $n$ filas (una por vértice) y en la que la columna correspondiente a la arista $ij$ tiene un $+1$ en la posición $i$ y un $-1$ en la posición $j$ y $0$ en las demás. Demostrar que:
+
+\begin{enumerate}[(a)]
+\item Un conjunto de columnas de $A$ es linealmente independiente si, y solo si el conjunto correspondiente de aristas no contiene ciclos (se dice que ese conjunto de aristas es un \textit{bosque}; si además es conexo, es un \textit{árbol}; si además contiene a todos os vértices es un \textit{árbol generador}).
+\item La matriz $A$ tiene rango $\leq n-1$ con igualdad si y solo si $G$ es conexo. (Hay varias maneras de hacerlo: puedes demostrar que hay una única dependencia lineal entre filas, o usar el apartado (a) para encontrar el número máximo de columnas independientes).
+\end{enumerate}\end{ejer}
+
+\begin{sol}\item[]
+\begin{enumerate}[(a)]
+\item Sea $A$ la matriz de incidencia dirigida del grafo y $S\subseteq E$ un conjunto de aristas. Además, podemos suponer sin pérdida de generalidad cualquier sentido en las aristas del grafo ya que esto no influye en los ciclos que hubiera y tampoco en la dependencia lineal de las columnas ya que consiste solo en multiplicar por $-1$ donde sea necesario. Por tanto, podemos asumir que en cada columna primero aparece el $1$ y después el $-1$. Podemos suponer sin pérdida de generalidad que $S$ genera un grafo conexo porque en caso contrario podemos expresar $S$ como un unión disjunta de conjuntos de aristas conexas. Si $S$ tiene un ciclo, entonces al menos uno de los conjuntos menores tiene un ciclo y recíprocamente. En la matriz esto se traduce en que si $S$ tiene más de una componente, $A$ se puede dividir en bloques de la forma
+
+$$\begin{pmatrix}
+1/-1 & 0 & 0 & 0\\
+0 & 1/-1 & 0 & \vdots \\
+\vdots & \vdots & \ddots & \vdots\\
+0 & 0 &  \cdots & 1/-1
+\end{pmatrix}$$
+
+donde $0$ es una submatriz de ceros y $1/-1$ indica una submatriz con coeficientes en $\{-1,0,1\}$ y que no es más que la matriz de incidencia dirigida del subgrafo correspondiente a la componente conexa de los vértices de las filas no nulas de su bloque.
+
+Si se toma una columna de un bloque, entonces es claramente linealmente independiente con todas las columnas de cualquier otro bloque porque tiene ceros en las filas correspondientes a los otros bloques.
+
+El problema se reduce así a conjuntos de columnas de $A$ cuyas aristas correspondientes generan un grafo conexo y la submatriz no se puede dividir en bloques. 
+
+Sin pérdida de generalidad podemos suponer también que el subconjunto de aristas que escogemos son las primeras de la matriz simplemente permutándolas ya que no cambia la dependencia lineal y respecto al grafo es un cambio de etiquetas de las aristas. Así, podemos ir recorriendo las columnas de la matriz, i.e., las aristas del grafo como una búsqueda en el grafo ordenándolas por vértices y distinguir el caso en que la siguiente columna sea o no linealmente independiente con las anteriores y esto nos permitirá encontrar un ciclo.
+
+Las dos primeras columnas de la matriz son, sin pérdida de generalidad $\begin{pmatrix}
+1 & -1 & 0 & \cdots & 0
+\end{pmatrix}^T$ y $\begin{pmatrix}
+0 & 1 & -1 & 0 & \cdots & 0
+\end{pmatrix}^T$ linealmente independientes y el grafo con dos aristas no múltiples no tiene ciclos. Para la tercera columna, hay dos opciones 
+$\begin{pmatrix}
+1 &  0  & -1 & 0 & \cdots & 0
+\end{pmatrix}^T$ o también $\begin{pmatrix}
+0 &  0  & 1 & -1 &  0 & \cdots & 0
+\end{pmatrix}^T$. En el primer caso tenemos un ciclo porque tenemos un camino $v_1v_2v_1$ y se corresponde a una dependencia lineal entre las columnas porque el único menor no trivial es nulo
+$$\begin{vmatrix}
+1 & 0 & 1\\
+-1 & 1 & 0\\
+0 & -1 & -1
+\end{vmatrix}=0.$$
+En el otro caso, tenemos un camino $v_1v_2v_3$ sin ciclos y claramente las tres columnas son linealmente independientes. Observamos que en cada paso estamos reordenando las columnas.
+
+Esto lo podemos generalizar al caso con más columnas. Si tenemos un conjunto de $k-1$ columnas linealmente independientes y escogemos una columna nueva, se corresponde a una arista del grafo que como es conexo saldrá de un vértice $vk$ de alguna de las aristas que ya teníamos tenemos. Como las columnas están ordenadas sin pérdida de generalidad sabemos que las $k-1$ primeras columnas son de la forma
+$$\begin{pmatrix}
+1 & 0 & 0 & \cdots & 0\\
+-1 & 1 & 0 & \cdots & 0\\
+0 & -1 & 1 & \cdots & 0\\
+\vdots & \vdots & \ddots & \vdots & \vdots\\
+0 & 0 & \cdots & \cdots & -1\\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+0 & 0 & 0 & 0 & 0
+
+\end{pmatrix}$$
+La arista correspondiente que sale de $v_k$ puede o no formar un ciclo. Si no forma un ciclo, toca un vertice nuevo y tenemos un camino $v_1v_2\cdots v_kv_{k+1}$ y su columna es linealmente independiente de las anteriores porque tiene en la fila $v_k$ un $1$, en la $v_{k+1}$ un $-1$ y el resto ceros. Y recíprocamente, si la columna es de esa forma, no existe un ciclo en el grafo porque estamos pasando de vértice a vértice sin repetir.
+
+Si la arista forma un ciclo, entonces tiene que ser adyacente a un vértice $v_p$ de los que ya teníamos. Es decir, tenemos un camino $v_1v_2\cdots v_{p-1} v_pv_{p+1}\cdots v_p$ que tiene un ciclo. En la matriz esto se traduce a que la columna correspondiente tiene un $1$ en la fila de $v_p$ y un $-1$ en la de $v_k+1$. Por simplicidad podemos suponer que $v_p$ es el primer vértice y entonces queda la matriz
+
+$$\begin{pmatrix}
+1 & 0 & 0 & \cdots & 0 & 1\\
+-1 & 1 & 0 & \cdots & 0 & 0\\
+0 & -1 & 1 & \cdots & 0 & 0\\
+\vdots & \vdots & \ddots & \vdots & \vdots & \vdots\\
+0 & 0 & \cdots & \cdots & -1 & -1\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+0 & 0 & 0 & 0 & 0 & 0
+
+\end{pmatrix}$$
+cuyo menor superior que es el único no trivial es $0$ y las columnas son linealmente independientes.
+
+Con esto hemos demostrado que dado un conjunto de columnas de un grafo, podemos recorrerlo y detectar un ciclo y esto se traduce en que la matriz de incidencia dirigida del grafo en que las columnas no son linealmente independientes con cualquier elección de la dirección que era lo que queríamos probar.
+
+\item  Un árbol generador con $n$ vértices no es más que un conjunto de $n-1$ aristas sin ciclos. Tomamos un vértice distinguido como raíz. Dada una arista del árbol, como no tiene ciclos, si se elimina una arista junto con los vértices que queden desconectados puede ocurrir solo una de las siguientes: el grafo sigue siendo conexo o el grafo tiene dos componentes conexas. En el primer caso se dice que la arista es una \textbf{hoja}. Podemos ir eliminando hojas una a una del grafo, por ejemplo, en profundidad. Por cada hoja que eliminamos, tenemos un vértice menos en el grafo salvo en la última arista que incide en dos vértices del grafo. Por lo tanto, un árbol de $n-1$ aristas cubre $n$ vértices.
+
+Tenemos que un grafo de $n$ aristas admite un árbol generador si y solo si tiene un subgrafo sin ciclos con $n-1$ aristas. Por el apartado (a), esto es equivalente a que la matriz de incidencia dirigida del grafo con cualquier elección de dirección de las aristas tenga $n-1$ columnas linealmente independientes que es equivalente a tener rango al menos $n-1$. Pero la matriz de incidencia dirigida del grafo no puede tener rango máximo $n$ porque eso implicaría que tiene un conjunto de $n$ columnas linealmente independientes y, de nuevo por el apartado (a), el grafo tiene un conjunto de $n$ aristas sin ciclos, lo que sería un árbol que cubre $n+1$ vértices contradiciendo el hecho de que el grafo tiene $n$ vértices. Por tanto, el grafo es conexo si y solo si la matriz tiene rango $n-1$.
+\end{enumerate}
+\end{sol}
+
+\begin{ejer}Deducir el teorema de König del teorema \textit{max-flow-min-cut}. Para ello:
+
+Dado un grafo bipartito $G=(X\cup Y,E)$ considerar una red $N$ añadiendo un vértice $v$ unido a todo $X$ y un vértice $w$ unido a todo $Y$, y dirigiendo todos los vértices $v\longrightarrow X\longrightarrow Y\longrightarrow w$. Dar capacidad $1$ a las aristas incidentes a $v$ y $w$ y capacidad estrictamente mayor que uno a las demás (las aristas originales de $G$).
+\begin{enumerate}[(a)]
+\item Ver que hay una biyección entre emparejamientos de $G$ y flujos factibles enteros de $N$.
+
+
+
+\item Sea $(S, T)$ un corte mínimo en $N$. Comprobar que $Y\cap S=n(X\cap S)$ donde $n(A)$ denota el ``vecindario de $A$'' (los vértices conectados a $A$ por una arista, pero que no están en A).
+
+
+\item Concluir que si $(S, T)$ es un corte mínimo y tomamos $A=X\cap S$, se tiene que 
+$$\text{capacity}(S,T)=|X\cap T|+|Y\cap S|=|X|-(|A|-|n(A)|)$$
+
+\item Deducir de lo anterior que en $G$ hay un vertex-cover de tamaño igual a la capacidad del corte $(S,T)$.
+
+\end{enumerate}\end{ejer}
+\begin{sol} Suponemos que el grafo bipartito es no vacío y conexo porque se necesita en varios pasos de la solución.
+\begin{enumerate}[(a)]
+\item Como la matriz del programa lineal asociado al problema del máximo flujo neto en una red es totalmente unimodular, sabemos que tener cotas enteras implica que todos los flujos factibles son enteros.
+
+Dado un flujo factible $z$ de $N$, sabemos que es entero. Por tanto, para todo $x\in X$, la arista $ux$ tiene flujo $0$ o $1$. Sea $n(x)=\{y\in Y : xy\in E\}$ el subconjunto de $Y$ de vértices adyacentes a $x$ que es un conjunto finito $n(x)=\{y_1,\ldots,y_k\}$. Distinguimos dos casos:
+\begin{itemize}
+\item Si el flujo de $ux$ es $0$, entonces, por las ecuaciones de conservación del flujo
+$$z_{xy_1}+\cdots+z_{xy_k}=0.$$
+Como el flujo es entero, el flujo de la arista $xy_i$ es cero para todo $i\in\{1,\ldots, k\}$.
+\item Si el flujo de $ux$ es $1$, entoncesm por las ecuaciones de conservación del flujo,
+$$z_{xy_1}+\cdots+z_{xy_k}=1.$$
+Como el flujo es entero, todas las aristas tienen flujo $0$ salvo una cierta arista correspondiente a un $i_0\in\{1,\ldots, k\}$. De hecho, este vértice es el único vecino de $X$ tal que $z_{y_{i_0}x}=1$ ya que debe cumplirse también la cota máxima $1$ para las aristas de $Y$ a $w$.
+\end{itemize}
+Con esto hemos demostrado que en la red $N$ para todo flujo factible las aristas de $M$ tienen flujo $0$ o $1$ y que dado un vértice $x\in X$, existe a lo sumo un $y\in Y$ tal que el flujo de $xy$ es $1$ (y ese $y$ es el único tal que el flujo de $yw$ es $1$). Eso implica que el conjunto $S=\{xy\in E : z_{xy}=1\}$ de las aristas de $G$ con flujo $1$ es un emparejamiento de $G$.
+
+Vamos a probar ahora que dado un emparejamiento de $G$ existe un único flujo entero factible $z$ de $N$ tal que las aristas de $G$ con flujo $1$ son precisamente las del emparejamiento, es decir, que la aplicación anterior que construye un emparejamiento a partir de un flujo entero factible es biyectiva. Sea $M$ un emparejamiento de $G$. Dotamos a las aristas de $M$ de flujo $1$. Si $xy\in M$, por la ley de conservación del flujo $z_{ux}=z_{xy}$ y $z_{xy}=z_{yw}$ con lo que la única posibilidad es que $ux$ e $yw$ tengan flujo $1$ y el resto de aristas tengan todas flujo $0$. Así, tenemos un flujo entero que es factible por construcción y cuyo emparejamiento correspondiente es precisamente $M$. Además el número de aristas del emparejamiento es el flujo neto porque cada arista de $ux$ con flujo $1$ se corresponde con una arista del emparejamiento.
+
+\item
+
+Suponemos que $S\cap Y\neq n(X\cap S)$, es decir, que $S\cap Y\nsubseteq n(X\cap S)$ o $n(X\cap S)\nsubseteq S\cap Y$.
+\begin{itemize}
+\item Si $S\cap Y\nsubseteq n(X\cap S)$, existe $y\in S\cap Y$ tal que para todo $x\in X\cap S$ no existe la arista $xy$. Usando que el grafo bipartito es conexo, debe existir una arista $ty$ para un cierto $t\in X\setminus (X\cap S)=X\cap T$. Consideramos el corte $(S',T')=(S\setminus \{y\},T\cup\{y\})$. Se cumple que 
+
+$$\text{capacity}(S',T')=\sum_{S\setminus \{y\}\longrightarrow T\cup\{y\}}c(e)=\sum_{S\longrightarrow T}c(e)-\sum_{\{y\}\longrightarrow T}c(e)< \text{capacity(S,T)}$$
+porque existe al menos la arista $yw$ que tiene cota máxima de flujo $1$. Esto contradice el hecho de que el corte $(S,T)$ es mínimo.
+
+\item Si $n(X\cap S)\nsubseteq Y\cap S$, existe $y\in n(X\cap S)$ tal que $y\notin S\cap Y$. La condición $y\in n(X\cap S)$ significa que existe un vértice $x\in X\cap S$ tal que existe la arista $xy$ en el grafo. Consideramos el corte $(S',T')=(S\setminus\{x\},T\cup\{x\})$. Se cumple que
+
+$$\text{capacity}(S',T')=\sum_{S\setminus \{x\}\longrightarrow T\cup\{x\}}c(e)=\sum_{S\longrightarrow T}c(e)-\sum_{\{x\}\longrightarrow T}c(e)< \text{capacity(S,T)}$$
+porque existe al menos la arista $xy$ de $S$ a $T$ con cota máxima de flujo estrictamente mayor que $1$· Esto contradice el hecho de que $(S,T)$ es mínimo.
+
+Con esto hemos visto en particular que solo contribuyen a la capacidad de un corte mínimo  las aristas de un vértice de $S$ a un vértice de $T$ que salen de $v$ y las que llegan a $w$, es decir, no se puede sumar enteros mayores que $1$ en la capacidad de un corte mínimo.
+\end{itemize}
+
+\item Por el apartado anterior, solo pueden contribuir a la capacidad de un corte mínimo aristas de un vértice de $S$ a un vértice de $T$ que salen de $v$ y las que llegan a $w$. Estas aristas tienen todas cota máxima de flujo $1$ por lo que la capacidad es el número total de aristas. Hay exactamente $|X\cap T|$ aristas del primer tipo porque son precisamente las aristas de $v$ (que está necesariamente en $S$ por definición de corte) a vértices de $X\cap T$ que son los únicos vértices de la red $N$ adyacentes a $v$ contenidos en $T$. Análogamente, hay exactamente $|Y\cap S|$ aristas del segundo tipo porque son precisamente las aristas que llegan a $w$ (que está necesariamente en $T$ por definición de corte) desde vértices de $Y\cap S$ que son los únicos vértices de la red $N$ adyacentes a $w$ contenidos en $S$. Por tanto,
+$$\text{capacity}(S,T)=|X\cap T|+|Y\cap S|.$$
+
+Para la igualdad que falta, aplicando el apartado anterior, $n(A)=n(X\cap S)=Y\cap S$ y tenemos que ver que 
+$$\text{capacity}(S,T)=|X|-(|X\cap S|-|Y\cap S|).$$
+Pero esto es evidente porque $S$ y $T$ son complementarios y entonces $|X|-|X\cap S|=|X\cap T|$ y
+$$\text{capacity}(S,T)=|X\cap T|+|Y\cap S|=|X|-|X\cap S|+|Y\cap S|=|X|-(|X\cap S|-|Y\cap S|).$$
+\item Si $(S,T)$ es un corte mínimo, por el teorema \textit{max-flow-min-cut}, existe un flujo (entero) factible máximo $z$ con flujo neto la capacidad del corte mínimo,
+
+$$|X|-(|X\cap S|-|n(X\cap S)|).$$
+Sabemos también por el algoritmo del flujo máximo que el flujo factible máximo que se obtiene cumple que las aristas que salen de un vértice de $S$ a un vértice de $T$ tienen flujo $1$ y las que salen de un vértice de $T$ a un vértice de $S$ tienen flujo $0$. Como el flujo máximo es la capacidad del corte anterior, hay otras $|n(X\cap S)|=|Y\cap S|$ aristas que salen de $u$ a vértices de $X\cap S$ que también tienen flujo $1$.
+
+Ahora aplicamos la biyección del apartado (a) que nos permite construir un emparejamiento de $G$ a partir de un flujo entero factible. Este emparejamiento es el conjunto de aristas $xy$ de $G$ tales que $ux$ e $yw$ tienen flujo $1$. Además el número de aristas del emparejamiento es el flujo neto, en este caso, la capacidad mínima de un corte, es decir, $|X\cap T|+|Y\cap S|$. Que el flujo sea máximo quiere decir que no se puede dar flujo $1$ a ninguna arista diferente que salga de $u$ y, en particular, a ninguna arista más del grafo bipartito ni a ninguna arista que llegue a $w$. Esto significa que el emparejamiento es máximo. Dada una arista del grafo, uno de sus vértices está emparejado. Eso nos lleva a escoger el conjunto de vértices
+$$(X\cap T)\cup(Y\cap S)$$
+que se corresponde a tomar en las aristas del emparejamiento los vertices de $X$ que están en $T$ y de $Y$ los que están en $S$ que sabemos que cada uno proviene de una y solo una arista distinta del emparejamiento por las ecuaciones de flujo y porque el cardinal es el tamaño total del emparejamiento. Como el emparejamiento es máximo, toda arista del grafo $G$ tiene un vértice en ese conjunto y, por tanto, es un \textit{vertex-cover} con cardinal la capacidad del corte mínimo.
+\end{enumerate}
+\end{sol}
+\end{document}
